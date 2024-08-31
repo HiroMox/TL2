@@ -24,9 +24,9 @@ mkdir -p ~/titan-node
 cd ~/titan-node
 
 # 获取用户输入
-read -p "请输入存储空间大小(例如: 2g): " storage_size
+read -p "请输入存储空间大小(例如: 2): " storage_size
 read -p "请输入您的身份码: " identity_code
-read -p "请输入数据存储路径(默认: ./): " storage_path
+read -p "请输入数据存储路径，不改路径直接按回车(默认: ./): " storage_path
 storage_path=${storage_path:-.}
 
 while true; do
