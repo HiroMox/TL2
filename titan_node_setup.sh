@@ -1,22 +1,34 @@
 #!/bin/bash
 
-# 检测Docker是否安装
-if ! [ -x "$(command -v docker)" ]; then
-  echo "Docker未安装，正在安装Docker..."
-  sudo apt update
-  wget https://get.docker.com/ -O docker.sh
-  sudo sh docker.sh
-  rm docker.sh
+# 检测Docker是否已安装
+if ! command -v docker &> /dev/null; then
+    echo "Docker未安装，正在安装Docker..."
+    sudo apt update
+    wget https://get.docker.com/ -O docker.sh
+    sudo sh docker.sh
+    rm docker.sh
 else
-  echo "Docker已安装"
+    echo "Docker已安装，跳过安装步骤。"
 fi
 
-# 检测Docker Compose是否安装
-if ! [ -x "$(command -v docker-compose)" ]; then
-  echo "Docker Compose未安装，正在安装Docker Compose..."
-  sudo apt install docker-compose -y
+# 询问用户是否来自中国大陆地区
+read -p "是否为中国大陆地区服务器，是请输入y，不是请直接按回车或输入n：" region
+
+if [ "$region" == "y" ]; then
+    echo "配置Docker镜像源..."
+    sudo mkdir -p /etc/docker
+    echo '{
+"registry-mirrors": [
+    "https://docker.m.daocloud.io",
+    "https://noohub.ru",
+    "https://huecker.io",
+    "https://dockerhub.timeweb.cloud",
+    "https://docker.rainbond.cc"
+]
+}' | sudo tee /etc/docker/daemon.json
+    sudo systemctl restart docker
 else
-  echo "Docker Compose已安装"
+    echo "跳过Docker镜像源配置。"
 fi
 
 # 创建titan-node目录
