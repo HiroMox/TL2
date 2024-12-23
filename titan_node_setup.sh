@@ -121,3 +121,4 @@ if [ $? -eq 0 ]; then
     docker-compose ps
 else
     echo "容器启动失败，请检查日志。"
+fi
