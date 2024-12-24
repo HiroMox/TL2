@@ -107,8 +107,8 @@ for i in $(seq 2 $instance_count); do
     volumes:
       - ${storage_path}/data${i}:/root/.titanedge
     ports:
-      - "${port_base}:1234"
-      - "${port_base}:1234/udp"
+      - "${port_base}:${port_base}"
+      - "${port_base}:${port_base}/udp"
 EOL
 done
 
