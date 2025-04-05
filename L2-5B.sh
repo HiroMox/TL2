@@ -2,7 +2,7 @@
 # 脚本功能：
 # 1. 检查是否以 root 身份运行
 # 2. 检查是否安装 docker，没有则安装 docker（更新库后安装）
-# 3. 生成 docker-compose.yml 文件，支持用户自定义存储空间大小、身份码、以及目标文件夹（默认为 /root）
+# 3. 根据用户传入参数生成 docker-compose.yml 文件（新版本文件内容如下）
 # 4. 启动 docker-compose 项目，并检查容器（titan1 ~ titan5）是否全部启动成功
 
 # 检查是否以 root 用户执行
@@ -35,7 +35,7 @@ done
 
 # 检查必须的参数是否提供
 if [ -z "$IDENTITY" ] || [ -z "$STORAGE" ]; then
-    echo "必须提供 --identity 和 --storage 参数，例如：--identity=EFFE4203-C6B7-463B-A648-A7878171D31C --storage=8"
+    echo "必须提供 --identity 和 --storage 参数，例如：--identity=YOUR_IDENTITY_CODE --storage=20"
     exit 1
 fi
 
@@ -66,7 +66,7 @@ fi
 # 指定 docker-compose.yml 文件路径
 DOCKER_COMPOSE_FILE="$FOLDER/docker-compose.yml"
 
-# 生成 docker-compose.yml 文件内容
+# 生成 docker-compose.yml 文件内容（新版本文件）
 cat > "$DOCKER_COMPOSE_FILE" <<EOF
 version: '3.0'
 services:
@@ -97,12 +97,12 @@ services:
       AppConfig__TITAN_STORAGE_PATH: ""
       AppConfig__TITAN_EDGE_BINDING_URL: "https://api-test1.container1.titannet.io/api/v2/device/binding"
       AppConfig__TITAN_EDGE_ID: "$IDENTITY"
-      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1234"
+      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1235"
     volumes:
       - ./data/titan-02:/root/.titanedge
     ports:
-      - "1235:1234"
-      - "1235:1234/udp"
+      - "1235:1235"
+      - "1235:1235/udp"
 
   titan3:
     <<: *base_config
@@ -113,12 +113,12 @@ services:
       AppConfig__TITAN_STORAGE_PATH: ""
       AppConfig__TITAN_EDGE_BINDING_URL: "https://api-test1.container1.titannet.io/api/v2/device/binding"
       AppConfig__TITAN_EDGE_ID: "$IDENTITY"
-      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1234"
+      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1236"
     volumes:
       - ./data/titan-03:/root/.titanedge
     ports:
-      - "1236:1234"
-      - "1236:1234/udp"
+      - "1236:1236"
+      - "1236:1236/udp"
 
   titan4:
     <<: *base_config
@@ -129,12 +129,12 @@ services:
       AppConfig__TITAN_STORAGE_PATH: ""
       AppConfig__TITAN_EDGE_BINDING_URL: "https://api-test1.container1.titannet.io/api/v2/device/binding"
       AppConfig__TITAN_EDGE_ID: "$IDENTITY"
-      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1234"
+      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1237"
     volumes:
       - ./data/titan-04:/root/.titanedge
     ports:
-      - "1237:1234"
-      - "1237:1234/udp"
+      - "1237:1237"
+      - "1237:1237/udp"
 
   titan5:
     <<: *base_config
@@ -145,12 +145,12 @@ services:
       AppConfig__TITAN_STORAGE_PATH: ""
       AppConfig__TITAN_EDGE_BINDING_URL: "https://api-test1.container1.titannet.io/api/v2/device/binding"
       AppConfig__TITAN_EDGE_ID: "$IDENTITY"
-      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1234"
+      TITAN_NETWORK_LISTENADDRESS: "0.0.0.0:1238"
     volumes:
       - ./data/titan-05:/root/.titanedge
     ports:
-      - "1238:1234"
-      - "1238:1234/udp"
+      - "1238:1238"
+      - "1238:1238/udp"
 EOF
 
 echo "docker-compose.yml 文件已生成在 $DOCKER_COMPOSE_FILE"
