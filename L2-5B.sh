@@ -157,7 +157,7 @@ echo "docker-compose.yml 文件已生成在 $DOCKER_COMPOSE_FILE"
 
 # 切换到 docker-compose.yml 所在目录并启动 docker-compose
 cd "$FOLDER"
-docker-compose up -d
+docker compose up -d
 
 # 等待容器启动
 sleep 10
